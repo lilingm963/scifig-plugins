@@ -1,0 +1,4 @@
+.DS_Store
+*.zip
+.mcp_publisher_token
+.env*

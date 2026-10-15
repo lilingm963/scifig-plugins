@@ -1,0 +1,107 @@
+{
+  "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
+  "name": "scifig",
+  "version": "1.0.0",
+  "description": "Create scientific illustrations, data charts and flowcharts through the SciFig MCP server.",
+  "author": {
+    "name": "SciFig",
+    "url": "https://scifig.ai"
+  },
+  "homepage": "https://scifig.ai/developers",
+  "repository": "https://github.com/lilingm963/scifig-plugins",
+  "license": "MIT",
+  "keywords": [
+    "science",
+    "figures",
+    "data-visualization",
+    "flowcharts",
+    "mcp"
+  ],
+  "extensions": {
+    "com.openai": {
+      "interface": {
+        "displayName": "SciFig",
+        "shortDescription": "AI scientific figures",
+        "longDescription": "SciFig is an AI scientific figure generator with three connected workspaces: Illustration, DataChart and FlowChart. Turn research ideas into scientific illustrations, plot data charts from your tables, and create editable flowcharts for papers, presentations and teaching.\n\nBuild on a rich collection of research assets, ready-to-use templates and color palettes. Refine your figures with text and label editing, regional edits, recoloring, background tools, upscaling and SVG vectorization. Export publication and presentation formats and download license certificates for your work.\n\nUse the same SciFig account and credit balance on the website and in your AI assistant. Paid credits from subscriptions and credit packs never expire, so you can work at your own pace. Annual plans start at $8.33 per month, billed annually.\n\nConnect through OAuth to bring scientific illustration, data visualization and research workflows directly into your conversation. Explore SciFig and setup instructions at https://scifig.ai/developers.",
+        "developerName": "SciFig",
+        "category": "Productivity",
+        "capabilities": [
+          "Scientific illustrations",
+          "Data charts",
+          "Flowcharts",
+          "Figure editing",
+          "Image exports"
+        ],
+        "websiteURL": "https://scifig.ai",
+        "supportURL": "https://scifig.ai/contact",
+        "privacyPolicyURL": "https://scifig.ai/privacy",
+        "termsOfServiceURL": "https://scifig.ai/terms",
+        "defaultPrompt": [
+          "Create a scientific illustration of a mitochondrion with labeled cristae.",
+          "Plot a bar chart from the data I provide.",
+          "Check my SciFig credit balance without creating anything."
+        ],
+        "composerIcon": "./assets/logo-icon-256.png",
+        "logo": "./assets/logo-icon-256.png"
+      },
+      "onboardingSkill": "./skills/scifig-onboarding/SKILL.md",
+      "review": {
+        "commerce": false,
+        "test_cases": {
+          "positive": [
+            {
+              "description": "Read balance without spending",
+              "prompt": "Check my SciFig credit balance; do not create or edit anything.",
+              "tools_triggered": "get_credit_balance",
+              "expected_behavior": "Return the connected account balance and reserved credits without creating a task."
+            },
+            {
+              "description": "Create an illustration",
+              "prompt": "Create a standard square scientific illustration of a mitochondrion labeled outer membrane, inner membrane and cristae.",
+              "tools_triggered": "generate_figure, get_job",
+              "expected_behavior": "Create one paid job, poll that job if needed, and return its image without creating duplicates."
+            },
+            {
+              "description": "Plot provided data",
+              "prompt": "Create a bar chart from these rows: group,value\nControl,2\nTreatment,5",
+              "tools_triggered": "generate_chart, get_job",
+              "expected_behavior": "Plot exactly the provided values and return the chart download and editor links."
+            },
+            {
+              "description": "Create a flowchart",
+              "prompt": "Draw a horizontal flowchart: Collect samples -> Extract RNA -> Sequence -> Analyze.",
+              "tools_triggered": "generate_flowchart, get_job",
+              "expected_behavior": "Create a flowchart with the four requested steps and return the SVG and editor links."
+            },
+            {
+              "description": "Inspect recent jobs",
+              "prompt": "List my five most recent SciFig jobs without generating anything.",
+              "tools_triggered": "list_figures",
+              "expected_behavior": "Return only the connected owner jobs and status; no paid action."
+            }
+          ],
+          "negative": [
+            {
+              "description": "Do not invent chart data",
+              "prompt": "Make a statistically significant clinical trial results chart. I do not have data.",
+              "tools_triggered": "",
+              "expected_behavior": "Ask for actual data and do not invent results or make a paid chart."
+            },
+            {
+              "description": "Do not claim DPI adds pixels",
+              "prompt": "Convert my 1024 pixel image to 1000 DPI so that it becomes 8K, without upscaling.",
+              "tools_triggered": "",
+              "expected_behavior": "Explain that DPI changes print metadata, not pixels; do not claim an 8K output."
+            },
+            {
+              "description": "Do not spend for a connection check",
+              "prompt": "Only confirm the SciFig connection. Do not generate, edit, upscale or convert a figure.",
+              "tools_triggered": "get_credit_balance",
+              "expected_behavior": "Use only the free balance check if credits:read is granted; otherwise explain missing permission without expanding it."
+            }
+          ]
+        }
+      }
+    }
+  }
+}

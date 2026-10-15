@@ -1,0 +1,8 @@
+{
+  "name": "scifig",
+  "version": "1.0.0",
+  "description": "Create scientific figures, data charts and flowcharts with SciFig from Claude Code.",
+  "author": { "name": "SciFig", "url": "https://scifig.ai" },
+  "homepage": "https://scifig.ai/developers",
+  "license": "MIT"
+}
